@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="/serve/favicon.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <title>{{ .Meta.Title }}</title>
+    <meta property="og:title" content="{{ .Meta.Title }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <link href="/serve/style.css" rel="stylesheet">
+    <link href="/serve/highlight.css" rel="stylesheet">
+    <link href="/serve/fonts.css" rel="stylesheet">
+    <link href="/serve/vars.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-box">
+        <div class="menu">
+            {{ .SidebarContents }}
+        </div>
+        <div class="menu-box"></div>
+        <div class="content">
+            <div class="article">
+                {{ .Contents }}
+                <small><a href="{{ .Raw }}"><i class="fas fa-file-code"></i> raw</a></small>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
