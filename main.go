@@ -258,7 +258,10 @@ func main() {
 
 	fs := http.FileServer(http.Dir("assets/serve"))
 	http.Handle("/serve/", http.StripPrefix("/serve/", fs))
-	http.Handle("/favicon.ico", http.StripPrefix("/serve/", fs))
+
+	fs2 := http.FileServer(http.Dir("assets/public"))
+	http.Handle("/public/", http.StripPrefix("/public/", fs2))
+	http.Handle("/favicon.ico", http.StripPrefix("/public/", fs2))
 
 	http.HandleFunc("/", handler)
 
