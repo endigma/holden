@@ -23,6 +23,7 @@ import (
 )
 
 var conf Config
+var debug bool
 
 var md goldmark.Markdown = goldmark.New(
 	goldmark.WithExtensions(
@@ -75,7 +76,30 @@ func isInArr(s string, a []string) bool {
 	return false
 }
 
+func debugReq(req *http.Request) {
+	log.WithFields(log.Fields{
+		"agent":  req.UserAgent(),
+		"method": req.Method,
+		"addr":   exposeIP(req),
+	}).Debug("Request")
+}
+
+func exposeIP(req *http.Request) string {
+	addr := req.Header.Get("X-Real-Ip")
+	if addr == "" {
+		addr = req.Header.Get("X-Forwarded-For")
+	}
+	if addr == "" {
+		addr = req.RemoteAddr
+	}
+	return addr
+}
+
 func handler(rw http.ResponseWriter, req *http.Request) {
+	if debug {
+		debugReq(req)
+	}
+
 	log.Infof("Request for markdown file on %s", conf.Root+req.URL.Path)
 
 	var path string
@@ -224,14 +248,20 @@ func init() {
 	logfmt.FullTimestamp = true
 	log.SetFormatter(logfmt)
 	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
 
-	switch *debugLevel {
-	case 1:
-		log.SetLevel(log.ErrorLevel)
-	case 2:
-		log.SetLevel(log.InfoLevel)
-	case 3:
-		log.SetLevel(log.DebugLevel)
+	if len(os.Args) == 3 {
+		switch os.Args[2] {
+		case "1":
+			log.Info("Setting log level to Error")
+			log.SetLevel(log.ErrorLevel)
+		case "2":
+			log.Info("Setting log level to Info")
+		case "3":
+			log.Info("Setting log level to Debug")
+			debug = true
+			log.SetLevel(log.DebugLevel)
+		}
 	}
 
 	if len(os.Args) == 1 {
@@ -251,6 +281,8 @@ func init() {
 	checkErr(err)
 
 	log.Info("Initialized")
+	log.Debug("Debugging enabled")
+	log.Info(log.GetLevel())
 }
 
 func main() {
