@@ -12,3 +12,4 @@ COPY ./assets/ /assets
 COPY --from=build-env /go/bin/holden /
 
 CMD ["/holden", "/config.toml"]
+LABEL org.opencontainers.image.source=https://github.com/endigma/holden

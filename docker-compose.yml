@@ -7,7 +7,7 @@ services:
     environment:
       DOCKER: "TRUE"
     volumes:
-      - ./config.toml:/config.toml
+      - ./ignore/config.toml:/config.toml
       - ./md:/docroot
     ports:
       - "11011:11011"
