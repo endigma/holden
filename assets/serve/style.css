@@ -23,17 +23,17 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--color-secondary-darker);
+  background: var(--color-scrollbar-track);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary-darker-alt);
+  background: var(--color-scrollbar-thumb);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+  background: var(--color-scrollbar-primary);
 }
 
 p {

@@ -5,6 +5,9 @@
     --color-secondary-darker: #252525;
     --color-secondary-darker-alt: #202020;
 
+    --color-scrollbar-track: #2b2b2b;
+    --color-scrollbar-thumb: #202020;
+    --color-scrollbar-hover: var(--color-primary);
     
     --color-primary: #8CA6BD;
     --color-sidebar: #202020;
