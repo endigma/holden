@@ -87,14 +87,12 @@
     --color-diff-removed-row-border: #f1c0c0;
     --color-diff-added-row-border: #e6ffed;
     --color-diff-inactive: var(--color-secondary);
-
     
     --color-text: #E6E6E6;
     --color-text-light: #A9A9A9;
     --color-text-light-2: grey;
     --color-text-light-3: #a0a0a0;
     --color-text-dark: #eeaeae;
-
 
     --font-sans: "Fira Sans";
     --font-mono: "Fira Code";

@@ -20,12 +20,16 @@ import (
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
+	goldmarkhtml "github.com/yuin/goldmark/renderer/html"
 )
 
 var conf Config
 var debug bool
 
 var md goldmark.Markdown = goldmark.New(
+	goldmark.WithRendererOptions(
+		goldmarkhtml.WithUnsafe(),
+	),
 	goldmark.WithExtensions(
 		extension.GFM,
 		extension.DefinitionList,

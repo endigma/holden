@@ -19,12 +19,12 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--color-secondary);
+  background: var(--color-secondary-dark-4);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondark-dark-2);
+  background: var(--color-secondary-dark-2);
 }
 
 /* Handle on hover */
@@ -90,22 +90,22 @@ pre {
 code {
   font-family: var(--font-mono);
   font-size: 10pt;
-  color: #f56174;
-  background-color: #282d39;
+  color: var(--color-red);
+  background-color: var(--color-secondary-light-1);
   border-radius: 4px;
   padding: 2px 8px;
 }
 
 pre code {
   padding: 0;
-  color: #bfc0c4;
+  color: var(--color-text);
   background-color: unset;
 }
 
 .raw-pre {
   background-color: unset;
   border: none;
-  color: #ddd7ca;
+  color: var(--color-text);
   line-height: 1.25;
 }
 
@@ -115,7 +115,7 @@ pre code {
 }
 
 table {
-  border: 0.8px solid #07080a;
+  border: 0.8px solid var(--color-secondary-dark-3);
   border-spacing: 0px;
   text-align: left;
   border-collapse: collapse;
@@ -126,11 +126,11 @@ table {
 
 td,
 th {
-  border: 0.8px solid #1b202b;
+  border: 0.8px solid var(--color-secondary-dark-3);
 }
 
 th {
-  background: #282d39;
+  background: var(--color-secondary-light-1);
   text-align: center;
   padding: 10px;
 }
@@ -142,11 +142,11 @@ td {
 }
 
 tr:nth-child(even) {
-  background: #282d39;
+  background: var(--color-secondary-light-1);
 }
 
 tr:nth-child(odd) {
-  background: #242933;
+  background: var(--color-secondary-light-1);
 }
 
 table code {
@@ -154,7 +154,7 @@ table code {
 }
 
 blockquote {
-  border-left: 4px solid #8ca6bd;
+  border-left: 4px solid var(--color-primary);
   margin: 0;
   margin-bottom: 10px;
   padding: 0.2rem 1rem;
@@ -174,7 +174,8 @@ blockquote p {
   /* width: 320px; */
   max-width: 320px;
   width: fit-content;
-  border-right: 1px solid #171b24;
+  background-color: var(--color-black);
+  border-right: 1px solid var(--color-black);
   padding: 20px;
   height: 100vh;
   position: fixed;
