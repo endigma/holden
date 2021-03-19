@@ -23,12 +23,12 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--color-secondary-dark-4);
+  background: var(--color-secondary-darker);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary-dark-2);
+  background: var(--color-secondary-darker-alt);
 }
 
 /* Handle on hover */
