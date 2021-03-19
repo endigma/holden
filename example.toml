@@ -2,7 +2,7 @@
 # the folder which markdown files are served from, 
 # can be absolute or workdir relative (no trailing slash)
 # set to `_binary` to use binary parent folder
-root = "***REMOVED***"
+root = "md"
 # webserver port
 port = "11011"
 # use prefixes, for when you for example want to 
@@ -12,7 +12,7 @@ prefix = ""
 # its own resources (this must contain assets/) (append trailing slash)
 # leave empty to assume running workdir
 # set to `_binary` to use binary parent folder
-workdir = "***REMOVED***/"
+workdir = ""
 # make lines in code blocks linkable (add ids to them)
 linkablelines = true
 # if the user agent is curl and a raw file is being accessed, render it with ansi escape sequences
