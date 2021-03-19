@@ -16,7 +16,7 @@ var Conf Config
 // Config is a struct that holds config info
 type Config struct {
 	General struct {
-		Root          string `toml:"root"`
+		Root          string `toml:"docroot"`
 		Port          string `toml:"port"`
 		Prefix        string `toml:"prefix"`
 		WorkDir       string `toml:"workdir"`

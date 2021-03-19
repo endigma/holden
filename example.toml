@@ -2,7 +2,7 @@
 # the folder which markdown files are served from, 
 # can be absolute or workdir relative (no trailing slash)
 # set to `_binary` to use binary parent folder
-root = "md"
+docroot = "md"
 # webserver port
 port = "11011"
 # use prefixes, for when you for example want to 
