@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -5,7 +9,7 @@ body {
   font-family: var(--font-sans);
   line-height: 1.25;
   background-color: var(--color-secondary);
-  color: var(--color-text);
+  color: var(--font-color);
 }
 
 * {
@@ -38,7 +42,7 @@ p {
 }
 
 .menu a {
-    color: var(--color-text);
+  color: var(--font-color);
 }
 
 a {
@@ -75,37 +79,52 @@ ol {
 }
 
 pre {
-  margin: 15px 0;
-  padding: 16px;
+  margin-bottom: 15px;
+  padding: 10px;
   color: #808080;
   text-align: left;
   line-height: 20px;
   font-family: var(--font-mono);
   font-size: 12pt;
-  background-color: var(--color-secondary-dark-3);
-  border: 1px solid var(--color-secondary-dark-1);
   overflow-x: auto;
+}
+
+.article > pre,
+div[style] {
+  border: 0.8px solid var(--color-secondary-darker);
+}
+
+table[style] > tbody > tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0);
+}
+
+td[style] > pre[style] {
+  margin: 0;
+}
+
+div[style] {
+  margin-bottom: 15px;
 }
 
 code {
   font-family: var(--font-mono);
   font-size: 10pt;
   color: var(--color-red);
-  background-color: var(--color-secondary-light-1);
+  background-color: var(--color-secondary);
   border-radius: 4px;
   padding: 2px 8px;
 }
 
 pre code {
   padding: 0;
-  color: var(--color-text);
+  color: var(--font-color);
   background-color: unset;
 }
 
 .raw-pre {
   background-color: unset;
   border: none;
-  color: var(--color-text);
+  color: var(--font-color);
   line-height: 1.25;
 }
 
@@ -115,7 +134,6 @@ pre code {
 }
 
 table {
-  border: 0.8px solid var(--color-secondary-dark-3);
   border-spacing: 0px;
   text-align: left;
   border-collapse: collapse;
@@ -126,11 +144,11 @@ table {
 
 td,
 th {
-  border: 0.8px solid var(--color-secondary-dark-3);
+  border: 0.8px solid var(--color-secondary-lighter);
 }
 
 th {
-  background: var(--color-secondary-light-1);
+  background: var(--color-secondary);
   text-align: center;
   padding: 10px;
 }
@@ -142,11 +160,11 @@ td {
 }
 
 tr:nth-child(even) {
-  background: var(--color-secondary-light-1);
+  background: var(--color-secondary-darker-alt);
 }
 
 tr:nth-child(odd) {
-  background: var(--color-secondary-light-1);
+  background: var(--color-secondary-darker);
 }
 
 table code {
@@ -171,12 +189,10 @@ blockquote p {
 
 .menu {
   overflow-y: hidden;
-  /* width: 320px; */
   max-width: 320px;
   width: fit-content;
-  background-color: var(--color-black);
-  border-right: 1px solid var(--color-black);
-  padding: 20px;
+  background-color: var(--color-sidebar);
+  padding: 30px;
   height: 100vh;
   position: fixed;
 }
@@ -200,7 +216,7 @@ blockquote p {
 .article {
   max-width: 720px;
   margin: auto;
-  padding: 20px 20px 20px 60px;
+  padding: 20px 20px 20px 20px;
   box-sizing: unset;
 }
 
@@ -225,22 +241,31 @@ img {
   padding-left: 60px;
 }
 
-@media (max-width: 862px) {
-  .menu-box {
-    width: 240px;
-    min-width: 240px;
-  }
-  .menu {
-    width: 240px;
-  }
+#goto-top {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 13px;
+  padding-right: 13px;
+  margin: 0;
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  border-radius: 20px;
+  background: var(--color-secondary-darker-alt);
 }
 
 @media (max-width: 680px) {
-  .menu,
+  .main-box {
+    flex-direction: column;
+  }
   .menu-box {
     display: none;
   }
-  .article {
-    padding: 20px;
+  .menu {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    height: min-content;
+    padding: 25px;
   }
 }

@@ -11,11 +11,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" rel="stylesheet">
     <link href="/serve/style.css" rel="stylesheet">
+    <link href="/serve/lite.css" rel="stylesheet">
     <link href="/serve/vars.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="main-box">
+        <a id="top"></a>
         <div class="menu">
             {{ .SidebarContents }}
         </div>
@@ -24,6 +26,7 @@
             <div class="article">
                 {{ .Contents }}
                 <small><a href="{{ .Raw }}"><i class="fas fa-file-code"></i> raw</a></small>
+                <a id="goto-top" href="#top"><i class=""></i><i class="fas fa-arrow-up"></i></a>
             </div>
         </div>
     </div>

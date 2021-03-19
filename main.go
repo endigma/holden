@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"flag"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -24,29 +23,23 @@ import (
 )
 
 var conf Config
-var debug bool
 
-var md goldmark.Markdown = goldmark.New(
-	goldmark.WithRendererOptions(
-		goldmarkhtml.WithUnsafe(),
-	),
-	goldmark.WithExtensions(
-		extension.GFM,
-		extension.DefinitionList,
-		extension.Footnote,
-		meta.Meta,
-		highlighting.NewHighlighting(
-			highlighting.WithStyle("solarized-dark256"),
-			highlighting.WithFormatOptions(
-				html.WithLineNumbers(true),
-			),
-		),
-	),
-)
+var md goldmark.Markdown
 
 type Config struct {
-	Root string `toml:"root"`
-	Port string `toml:"port"`
+	General struct {
+		Root          string `toml:"root"`
+		Port          string `toml:"port"`
+		Debug         bool   `toml:"debug"`
+		LinkableLines bool   `toml:"linkablelines"`
+	} `toml:"general"`
+	Aesthetic struct {
+		HighlightStyle     string `toml:"highlightstyle"`
+		LineNumbers        bool   `toml:"linenumbers"`
+		LineNumbersInTable bool   `toml:"linenumbersintable"`
+		TabWidth           int    `toml:"tabwidth"`
+		UseClasses         bool   `toml:"useclasses"`
+	} `toml:"aesthetic"`
 }
 
 type Page struct {
@@ -62,8 +55,6 @@ type Directory struct {
 	Files       []string
 	Name        string
 }
-
-var debugLevel = flag.Int("d", 2, "show debug info (1 - 3)")
 
 func checkErr(e error) {
 	if e != nil {
@@ -100,11 +91,11 @@ func exposeIP(req *http.Request) string {
 }
 
 func handler(rw http.ResponseWriter, req *http.Request) {
-	if debug {
+	if conf.General.Debug {
 		debugReq(req)
 	}
 
-	log.Infof("Request for markdown file on %s", conf.Root+req.URL.Path)
+	log.Debugf("Request for markdown file on %s", conf.General.Root+req.URL.Path)
 
 	var path string
 	if strings.HasSuffix(req.URL.Path, "/") {
@@ -112,8 +103,8 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 		path = req.URL.Path + "_index.md"
 	} else if strings.HasSuffix(req.URL.Path, ".md") {
 		log.Debug("Detected trailing .md on %s, sending raw markdown", req.URL.Path)
-		if fileExists(conf.Root + req.URL.Path) {
-			sourcefile, err := os.Open(conf.Root + req.URL.Path)
+		if fileExists(conf.General.Root + req.URL.Path) {
+			sourcefile, err := os.Open(conf.General.Root + req.URL.Path)
 			checkErr(err)
 			defer sourcefile.Close()
 
@@ -133,13 +124,13 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 		path = req.URL.Path + ".md"
 	}
 
-	page := render(conf.Root + path)
+	page := render(conf.General.Root + path)
 
-	if fileExists(conf.Root + "/_sidebar.md") {
+	if fileExists(conf.General.Root + "/_sidebar.md") {
 		log.Debug("_sidebar found")
-		page.SidebarContents = render(conf.Root + "/_sidebar.md").Contents
+		page.SidebarContents = render(conf.General.Root + "/_sidebar.md").Contents
 	} else {
-		page.SidebarContents = "<h3><a class='home' href='/'><i class='fas fa-home'></i></a></h3><ul>" + renderSidebar(enumerateDir(conf.Root), "/") + "</ul>"
+		page.SidebarContents = "<h3><a class='home' href='/'><i class='fas fa-home'></i></a></h3><ul>" + renderSidebar(enumerateDir(conf.General.Root), "/") + "</ul>"
 	}
 
 	page.Raw = path
@@ -151,8 +142,8 @@ func handler(rw http.ResponseWriter, req *http.Request) {
 func render(reqPath string) Page {
 	if !fileExists(reqPath) {
 		log.Errorf("No file found at: %s", reqPath)
-		if fileExists(conf.Root + "/_404.md") {
-			return render(conf.Root + "/_404.md")
+		if fileExists(conf.General.Root + "/_404.md") {
+			return render(conf.General.Root + "/_404.md")
 		} else {
 			return Page{
 				Path:            "404",
@@ -245,8 +236,6 @@ func fileExists(path string) bool {
 }
 
 func init() {
-	flag.Parse()
-
 	logfmt := new(log.TextFormatter)
 	logfmt.TimestampFormat = "2006-01-02 15:04:05"
 	logfmt.FullTimestamp = true
@@ -254,18 +243,8 @@ func init() {
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.InfoLevel)
 
-	if len(os.Args) == 3 {
-		switch os.Args[2] {
-		case "1":
-			log.Info("Setting log level to Error")
-			log.SetLevel(log.ErrorLevel)
-		case "2":
-			log.Info("Setting log level to Info")
-		case "3":
-			log.Info("Setting log level to Debug")
-			debug = true
-			log.SetLevel(log.DebugLevel)
-		}
+	if conf.General.Debug {
+		log.SetLevel(log.DebugLevel)
 	}
 
 	if len(os.Args) == 1 {
@@ -284,13 +263,34 @@ func init() {
 	err = toml.NewDecoder(configFile).Decode(&conf)
 	checkErr(err)
 
+	md = goldmark.New(
+		goldmark.WithRendererOptions(
+			goldmarkhtml.WithUnsafe(),
+		),
+		goldmark.WithExtensions(
+			extension.GFM,
+			extension.DefinitionList,
+			extension.Footnote,
+			meta.Meta,
+			highlighting.NewHighlighting(
+				highlighting.WithStyle(conf.Aesthetic.HighlightStyle),
+				highlighting.WithFormatOptions(
+					html.WithLineNumbers(conf.Aesthetic.LineNumbers),
+					html.TabWidth(conf.Aesthetic.TabWidth),
+					html.LineNumbersInTable(conf.Aesthetic.LineNumbersInTable),
+					html.WithClasses(conf.Aesthetic.UseClasses),
+					html.LinkableLineNumbers(conf.General.LinkableLines, "l"),
+				),
+			),
+		),
+	)
+
 	log.Info("Initialized")
 	log.Debug("Debugging enabled")
-	log.Info(log.GetLevel())
 }
 
 func main() {
-	log.Infof("Serving markdown files in %s", conf.Root)
+	log.Infof("Serving markdown files in %s", conf.General.Root)
 
 	fs := http.FileServer(http.Dir("assets/serve"))
 	http.Handle("/serve/", http.StripPrefix("/serve/", fs))
@@ -301,6 +301,6 @@ func main() {
 
 	http.HandleFunc("/", handler)
 
-	log.Infof("Starting http server on :%s", conf.Port)
-	log.Fatal(http.ListenAndServe(":"+conf.Port, nil))
+	log.Infof("Starting http server on :%s", conf.General.Port)
+	log.Fatal(http.ListenAndServe(":"+conf.General.Port, nil))
 }

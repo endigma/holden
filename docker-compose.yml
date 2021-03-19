@@ -1,0 +1,13 @@
+version: "3"
+services:
+  holden:
+    container_name: holden
+    image: ghcr.io/endigma/holden
+    build: .
+    environment:
+      DOCKER: "TRUE"
+    volumes:
+      - ./config.toml:/config.toml
+      - ./md:/docroot
+    ports:
+      - "11011:11011"

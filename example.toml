@@ -1,2 +1,21 @@
+[general]
+# the folder which markdown files are served from, can be absolute or workdir relative
 root = "md"
+# webserver port
 port = "11011"
+# debug info
+debug = false
+# make lines in code blocks linkable (add ids to them)
+linkablelines = true
+
+[aesthetic]
+# theme for fenced code blocks, one of https://xyproto.github.io/splash/docs/all.html
+highlightstyle = "solarized-dark256"
+# enable/disable line numbers in code blocks
+linenumbers = true
+# separate line numbers into a table so you can copy-paste code easier
+linenumbersintable = true
+# sets the width of a tab
+tabwidth = 4
+# determines whether the syntax highlighter uses class names or hardcoded css, if you enable this it renders highlightstyle useless
+useclasses = false

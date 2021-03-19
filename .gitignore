@@ -1,5 +1,3 @@
 bin/
-owl-demo/
-md/
+ignore/
 assets/public/
-config.toml
