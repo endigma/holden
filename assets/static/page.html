@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>{{ .Meta.Title }}</title>
-    <meta property="og:title" content="{{ .Meta.Title }}">
+    <title>{{ if .Meta.Title }}{{ .Meta.Title }}{{ else }}{{ .Raw }}{{ end }}</title>
+    <meta property="og:title" content="{{ if .Meta.Title }}{{ .Meta.Title }}{{ else }}{{ .Raw }}{{ end }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" rel="stylesheet">
     <link href="/serve/style.css" rel="stylesheet">
@@ -21,7 +21,6 @@
         <div class="menu">
             {{ .SidebarContents }}
         </div>
-        <div class="menu-box"></div>
         <div class="content">
             <div class="article">
                 {{ .Contents }}

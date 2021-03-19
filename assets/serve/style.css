@@ -185,39 +185,38 @@ blockquote p {
 
 .main-box {
   display: flex;
+  height: 100vh;
 }
 
 .menu {
+  background-color: var(--color-sidebar);
+  padding: 30px 60px 30px 30px;
+  flex: 0 0 auto;
   overflow-y: hidden;
+}
+
+/* .menu {
   max-width: 320px;
   width: fit-content;
-  background-color: var(--color-sidebar);
-  padding: 30px;
   height: 100vh;
   position: fixed;
-}
+} */
 
 .menu:hover {
   overflow-y: overlay;
-  /* scrollbar-gutter: always; */
-}
-
-.menu-box {
-  width: 320px;
-  min-width: 320px;
-  height: 100vh;
 }
 
 .content {
   width: 100%;
   margin: 0 auto;
   padding: 0;
+  overflow: auto;
 }
 
 .article {
   max-width: 720px;
   margin: auto;
-  padding: 20px 20px 20px 20px;
+  padding: 30px;
   box-sizing: unset;
 }
 
@@ -259,14 +258,14 @@ img {
   .main-box {
     flex-direction: column;
   }
-  .menu-box {
-    display: none;
-  }
   .menu {
     position: relative;
     max-width: 100%;
     width: 100%;
     height: min-content;
     padding: 25px;
+  }
+  .content {
+    overflow: visible;
   }
 }
