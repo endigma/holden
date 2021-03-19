@@ -115,9 +115,6 @@ func enumerateDir(path string) structure.Directory {
 
 func init() {
 	md = goldmark.New(
-		goldmark.WithRendererOptions(
-			goldmarkhtml.WithUnsafe(),
-		),
 		goldmark.WithExtensions(
 			extension.GFM,
 			extension.DefinitionList,
@@ -135,5 +132,8 @@ func init() {
 			),
 		),
 	)
+	if structure.Conf.General.AllowHtml {
+		md.Renderer().AddOptions(goldmarkhtml.WithUnsafe())
+	}
 	log.Info("Markdown renderer initialized")
 }

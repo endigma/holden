@@ -20,6 +20,7 @@ type Config struct {
 		Port          string `toml:"port"`
 		Prefix        string `toml:"prefix"`
 		WorkDir       string `toml:"workdir"`
+		AllowHtml     bool   `toml:"allowhtml"`
 		LinkableLines bool   `toml:"linkablelines"`
 		FancyCurl     bool   `toml:"fancycurl"`
 		Debug         bool   `toml:"debug"`
