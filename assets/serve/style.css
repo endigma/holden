@@ -110,7 +110,7 @@ code {
   font-family: var(--font-mono);
   font-size: 10pt;
   color: var(--color-red);
-  background-color: var(--color-secondary);
+  background-color: var(--color-secondary-lighter);
   border-radius: 4px;
   padding: 2px 8px;
 }
@@ -198,7 +198,8 @@ blockquote p {
 }
 
 .menu:hover {
-  overflow-y: auto;
+  overflow-y: overlay;
+  /* scrollbar-gutter: always; */
 }
 
 .menu-box {
