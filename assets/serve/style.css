@@ -33,7 +33,7 @@ body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-scrollbar-primary);
+  background: var(--color-scrollbar-hover);
 }
 
 p {
