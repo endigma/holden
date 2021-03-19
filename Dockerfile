@@ -1,4 +1,4 @@
-FROM golang:1.15.8 as build-env
+FROM golang:1.16.2 as build-env
 
 WORKDIR /go/src/holden
 ADD . /go/src/holden
