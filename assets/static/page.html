@@ -6,27 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="/public/favicon.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
-    <title>{{ if .Meta.Title }}{{ .Meta.Title }}{{ else }}{{ .Raw }}{{ end }}</title>
-    <meta property="og:title" content="{{ if .Meta.Title }}{{ .Meta.Title }}{{ else }}{{ .Raw }}{{ end }}">
+    {{ if .Meta.Title }}
+    <title>{{ .Meta.Title }}</title>
+    <meta property="og:title" content="{{ .Meta.Title }}">
+    {{ else }}
+    <title>{{ .Raw }}</title>
+    <meta property="og:title" content="{{ .Raw }}">
+    {{ end }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans&display=swap" rel="stylesheet">
-    <link href="/serve/style.css" rel="stylesheet">
-    <link href="/serve/lite.css" rel="stylesheet">
-    <link href="/serve/vars.css" rel="stylesheet">
+    <link href="{{ .Prefix }}/serve/style.css" rel="stylesheet">
+    <link href="{{ .Prefix }}/serve/vars.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="main-box">
-        <a id="top"></a>
         <div class="menu">
             {{ .SidebarContents }}
         </div>
         <div class="content">
+            <a id="top"></a>
             <div class="article">
                 {{ .Contents }}
-                <small><a href="{{ .Raw }}"><i class="fas fa-file-code"></i> raw</a></small>
-                <a id="goto-top" href="#top"><i class=""></i><i class="fas fa-arrow-up"></i></a>
+                <small><a href="{{ .Prefix }}{{ .Raw }}"><i class="fas fa-file-code"></i> raw</a></small>
             </div>
+            <a id="goto-top" href="#top"><i class=""></i><i class="fas fa-arrow-up"></i></a>
         </div>
     </div>
 
