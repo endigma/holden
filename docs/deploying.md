@@ -18,6 +18,8 @@ clone the repo, build and run. be sure to rename example.toml to config.toml or 
 
 run it, mount your docroot and config as you'd expect. the docker image expects the config to be at `/config.toml`.
 
+
+### example docker-compose.yml
 ```yaml
 version: "3.5"
 services:
@@ -35,4 +37,4 @@ services:
     restart: unless-stopped
 ```
 
-you can also mount `/assets/serve/vars.css` and `/assets/public`
+you can also mount `/assets/serve/vars.css` and `/assets/public` (or anything else in `/assets` you'd like to replace)
