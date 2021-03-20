@@ -86,6 +86,10 @@ pre {
   overflow-x: auto;
 }
 
+pre > code {
+  font-size: 16px !important;
+}
+
 .article > pre,
 div[style] {
   border: 0.8px solid var(--color-secondary-darker);
