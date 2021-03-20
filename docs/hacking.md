@@ -1,3 +1,7 @@
+---
+Title: Hacking and Customization
+---
+
 # Hacking and Customization
 
 ## Themeing
@@ -29,8 +33,8 @@ meta uses the yaml header for the document, for example if your markdown file is
 
 ```md
 ---
-Title = Hello, world!
-Author = Me
+Title: Hello, world!
+Author: Me
 ---
 
 # Hello, world!
