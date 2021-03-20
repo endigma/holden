@@ -6,7 +6,7 @@ Title: deployment guide
 
 ## baremetal
 
-clone the repo, build and run.
+clone the repo, build and run. be sure to rename example.toml to config.toml or specify a config file.
 
 ## docker
 
