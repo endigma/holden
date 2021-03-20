@@ -4,7 +4,7 @@ Title: Hacking and Customization
 
 # Hacking and Customization
 
-## Themeing
+## Theming
 
 we have two main css files:
 
