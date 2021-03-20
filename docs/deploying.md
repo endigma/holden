@@ -4,6 +4,10 @@ Title: deployment guide
 
 # deployment guide
 
+## configuration
+
+configuration is mandatory, be sure to change the values to your setup, the defaults will almost definitely not work (even crash) for you.
+
 ## baremetal
 
 clone the repo, build and run. be sure to rename example.toml to config.toml or specify a config file.
@@ -12,7 +16,7 @@ clone the repo, build and run. be sure to rename example.toml to config.toml or 
 
 `docker pull ghcr.io/endigma/holden`
 
-run it, mount your docroot and config as youd expect. the docker image expects the config to be at `/config.toml`.
+run it, mount your docroot and config as you'd expect. the docker image expects the config to be at `/config.toml`.
 
 ```yaml
 version: "3.5"
