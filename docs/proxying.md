@@ -1,3 +1,7 @@
+---
+Title: Proxies
+---
+
 # Proxies
 
 Alternative to running holden on port 80 on your server, you can easily reverse proxy to the holden server or the holden docker container. The setting in `config.toml` called "prefix" will be useful if you want to reverse proxy to holden on a subpath, i.e. `domain.com/docs` etc.

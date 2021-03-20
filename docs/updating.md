@@ -1,3 +1,7 @@
+---
+Title: Updating
+---
+
 # Updating
 
 Updating holden should be as easy as updating your docker image or rebuilding from source.
