@@ -1,10 +1,10 @@
 ---
-Title: Hacking and Customization
+Title: hacking and customization
 ---
 
-# Hacking and Customization
+# hacking and customization
 
-## Theming
+## theming
 
 we have two main css files:
 
@@ -13,7 +13,7 @@ we have two main css files:
 
 we only support changing `vars.css`, if you change anything in `style.css` you're on your own.
 
-## Changing template
+## changing template
 
 in order to change the template you need to edit `assets/static/page.html`, but this again is something we do not support. you're on your own.
 

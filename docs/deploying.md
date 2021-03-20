@@ -1,14 +1,14 @@
 ---
-Title: Deployment Guide
+Title: deployment guide
 ---
 
-# Deployment Guide
+# deployment guide
 
-## Baremetal
+## baremetal
 
 clone the repo, build and run.
 
-## Docker
+## docker
 
 `docker pull ghcr.io/endigma/holden`
 

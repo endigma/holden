@@ -2,15 +2,15 @@
 Title: Proxies
 ---
 
-# Proxies
+# proxies
 
 Alternative to running holden on port 80 on your server, you can easily reverse proxy to the holden server or the holden docker container. The setting in `config.toml` called "prefix" will be useful if you want to reverse proxy to holden on a subpath, i.e. `domain.com/docs` etc.
 
 For simple setups, or if your networking infrastructure is modular, we recommend either Caddy or Traefik depending on your implementation.
 
-# Examples
+# examples
 
-## Caddy
+## caddy
 
 Caddy Subdomain Proxy to a docker container
 ```
@@ -34,7 +34,7 @@ domain.com {
 }
 ```
 
-## Nginx
+## nginx
 
 ```nginx
 server {
