@@ -1,3 +1,7 @@
+---
+Title: README
+---
+
 # holden
 
 dynamic markdown documentation written in go
