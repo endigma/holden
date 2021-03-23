@@ -63,13 +63,13 @@ func init() {
 		if utils.FileExists(binPath + "config.toml") {
 			configPath = binPath + "config.toml"
 		} else {
-			log.Fatal("Please provide a valid config file or put config.toml in" + binPath)
+			log.Fatal("Please provide a valid config file or put config.toml in " + binPath)
 		}
 	} else { // there are arguments
 		if utils.FileExists(os.Args[1]) {
 			configPath = os.Args[1]
 		} else {
-			log.Fatal("Please provide a valid config file or put config.toml in" + binPath)
+			log.Fatal("Please provide a valid config file or put config.toml in " + binPath)
 		}
 	}
 
