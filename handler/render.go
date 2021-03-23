@@ -135,5 +135,4 @@ func init() {
 	if structure.Conf.General.AllowHtml {
 		md.Renderer().AddOptions(goldmarkhtml.WithUnsafe())
 	}
-	log.Info("Markdown renderer initialized")
 }

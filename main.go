@@ -38,7 +38,7 @@ func main() {
 		structure.Conf.General.WorkDir = filepath.Dir(ex) + "/"
 	}
 
-	log.Info(structure.Conf.General.WorkDir)
+	log.Debug(structure.Conf.General.WorkDir)
 
 	fs := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/serve"))
 	http.Handle(structure.Conf.General.Prefix+"/serve/", http.StripPrefix(structure.Conf.General.Prefix+"/serve/", fs))
