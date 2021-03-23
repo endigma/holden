@@ -5,6 +5,8 @@
 docroot = "md"
 # webserver port
 port = "11011"
+# the name that will appear in the auto generated sidebar, leave empty for none
+sitename = ""
 # use prefixes, for when you for example want to 
 # proxy it under a subdirectory (no trailing slash)
 prefix = ""

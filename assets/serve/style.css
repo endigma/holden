@@ -201,6 +201,10 @@ blockquote p {
   overflow-y: overlay;
 }
 
+h3 i {
+  margin-right: .25em;
+}
+
 .content {
   width: 100%;
   margin: 0 auto;

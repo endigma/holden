@@ -18,6 +18,7 @@ type Config struct {
 	General struct {
 		Root          string `toml:"docroot"`
 		Port          string `toml:"port"`
+		SiteName      string `toml:"sitename"`
 		Prefix        string `toml:"prefix"`
 		WorkDir       string `toml:"workdir"`
 		AllowHtml     bool   `toml:"allowhtml"`
