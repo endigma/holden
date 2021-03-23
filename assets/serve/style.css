@@ -194,14 +194,8 @@ blockquote p {
   padding: 30px 60px 30px 30px;
   flex: 0 0 auto;
   overflow-y: hidden;
-}
-
-/* .menu {
   max-width: 320px;
-  width: fit-content;
-  height: 100vh;
-  position: fixed;
-} */
+}
 
 .menu:hover {
   overflow-y: overlay;
