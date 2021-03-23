@@ -6,10 +6,17 @@ Title: README
 
 dynamic markdown documentation written in go
 
+## running
+
+in order to run holden you have to pass a config file through the command line, or put a `config.toml` file where the binary is located. to use the shipped config run:
+```
+./holden example.toml
+```
+
 ## features
 
 - no javascript
-- entirely serversided
+- entirely server sided
 - reactive formatting on mobile
 - easily hackable css and formatting
 - dynamically generated sidebar/index
@@ -18,7 +25,7 @@ dynamic markdown documentation written in go
 
 ## update from source control
 
-If you want to host your documentation elsewhere, try integrating [fennec](https://github.com/endigma/fennec) into your workflow, it can accept POST requests from git services and trigger a script to update your production docs.
+if you want to host your documentation elsewhere, try integrating [fennec](https://github.com/endigma/fennec) into your workflow, it can accept POST requests from git services and trigger a script to update your production docs.
 
 ## custom system pages
 
