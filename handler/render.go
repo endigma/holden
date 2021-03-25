@@ -22,6 +22,7 @@ import (
 )
 
 var md goldmark.Markdown
+var metareader goldmark.Markdown
 
 func render(reqPath string) structure.Page {
 	if !utils.FileExists(reqPath) {
@@ -79,7 +80,22 @@ func renderSidebar(dirInfo structure.Directory, prefix string) string {
 	if len(dirInfo.Files) > 0 {
 		for _, file := range dirInfo.Files {
 			if !strings.HasPrefix(file, "_") {
-				sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + structure.Conf.General.Prefix + prefix + strings.TrimSuffix(file, ".md") + "\">" + strings.TrimSuffix(file, ".md") + "</a></li>")
+				filecontent, err := os.ReadFile(structure.Conf.General.Root + prefix + file)
+				utils.CheckErr(err)
+
+				context := parser.NewContext()
+				if err := metareader.Convert(filecontent, ioutil.Discard, parser.WithContext(context)); err != nil {
+					log.Panic(err)
+				}
+
+				fileMeta, err := meta.TryGet(context)
+				utils.CheckErr(err)
+
+				if fileMeta["Short"] != nil && fileMeta["Short"].(string) != "" {
+					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + structure.Conf.General.Prefix + prefix + strings.TrimSuffix(file, ".md") + "\">" + fileMeta["Short"].(string) + "</a></li>")
+				} else {
+					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + structure.Conf.General.Prefix + prefix + strings.TrimSuffix(file, ".md") + "\">" + strings.TrimSuffix(file, ".md") + "</a></li>")
+				}
 			}
 		}
 	}
@@ -134,6 +150,7 @@ func init() {
 			),
 		),
 	)
+	metareader = goldmark.New(goldmark.WithExtensions(meta.Meta))
 	if structure.Conf.General.AllowHtml {
 		md.Renderer().AddOptions(goldmarkhtml.WithUnsafe())
 	}
