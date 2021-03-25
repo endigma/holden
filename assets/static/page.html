@@ -21,9 +21,11 @@
 
 <body>
     <div class="main-box">
+        {{ if .DisplaySidebar }}
         <div class="menu">
             {{ .SidebarContents }}
         </div>
+        {{ end }}
         <div class="content">
             <a id="top"></a>
             <div class="article">

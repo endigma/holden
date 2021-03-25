@@ -58,6 +58,7 @@ func render(reqPath string) structure.Page {
 		Meta:             meta.Get(context),
 		SidebarContents:  "You shouldn't be seeing this!",
 		DisplayBackToTop: structure.Conf.Website.DisplayBackToTop,
+		DisplaySidebar:   structure.Conf.Website.DisplaySidebar,
 	}
 
 	return page

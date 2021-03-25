@@ -28,6 +28,7 @@ type Config struct {
 	Website struct {
 		SiteName         string `toml:"sitename"`
 		DisplayBackToTop bool   `toml:"backtotop"`
+		DisplaySidebar   bool   `toml:"sidebar"`
 	} `toml:"website"`
 	Aesthetic struct {
 		HighlightStyle     string `toml:"highlightstyle"`
@@ -46,6 +47,7 @@ type Page struct {
 	SidebarContents  string
 	Raw              string
 	DisplayBackToTop bool
+	DisplaySidebar   bool
 }
 
 // Directory is a struct that holds information

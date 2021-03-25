@@ -61,7 +61,11 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 		log.Debug("_sidebar found")
 		page.SidebarContents = render(structure.Conf.General.Root + "/_sidebar.md").Contents
 	} else {
-		page.SidebarContents = fmt.Sprintf("<h3><a class='home' href='%s/'><i class='fas fa-home'></i><span>%s</span></a></h3><ul>", structure.Conf.General.Prefix, structure.Conf.Website.SiteName) + renderSidebar(enumerateDir(structure.Conf.General.Root), "/") + "</ul>"
+		sidebarContent := renderSidebar(enumerateDir(structure.Conf.General.Root), "/")
+		if sidebarContent == "" {
+			page.DisplaySidebar = false
+		}
+		page.SidebarContents = fmt.Sprintf("<h3><a class='home' href='%s/'><i class='fas fa-home'></i><span>%s</span></a></h3><ul>", structure.Conf.General.Prefix, structure.Conf.Website.SiteName) + sidebarContent + "</ul>"
 	}
 
 	page.Raw = path

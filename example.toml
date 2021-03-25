@@ -24,9 +24,11 @@ debug = false
 
 [website]
 # the name that will appear in the auto generated sidebar, leave empty for none
-sitename = "hello, world!"
+sitename = ""
 # display back to top button
-backtotop = false
+backtotop = true
+# display sidebar
+sidebar = true
 
 [aesthetic]
 # theme for fenced code blocks, one of https://xyproto.github.io/splash/docs/all.html
