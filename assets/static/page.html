@@ -30,7 +30,9 @@
                 {{ .Contents }}
                 <small><a href="{{ .Prefix }}{{ .Raw }}"><i class="fas fa-file-code"></i> raw</a></small>
             </div>
+            {{ if .DisplayBackToTop }}
             <a id="goto-top" href="#top"><i class=""></i><i class="fas fa-arrow-up"></i></a>
+            {{ end }}
         </div>
     </div>
 

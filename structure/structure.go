@@ -18,7 +18,6 @@ type Config struct {
 	General struct {
 		Root          string `toml:"docroot"`
 		Port          string `toml:"port"`
-		SiteName      string `toml:"sitename"`
 		Prefix        string `toml:"prefix"`
 		WorkDir       string `toml:"workdir"`
 		AllowHtml     bool   `toml:"allowhtml"`
@@ -26,6 +25,10 @@ type Config struct {
 		FancyCurl     bool   `toml:"fancycurl"`
 		Debug         bool   `toml:"debug"`
 	} `toml:"general"`
+	Website struct {
+		SiteName         string `toml:"sitename"`
+		DisplayBackToTop bool   `toml:"backtotop"`
+	} `toml:"website"`
 	Aesthetic struct {
 		HighlightStyle     string `toml:"highlightstyle"`
 		TabWidth           int    `toml:"tabwidth"`
@@ -37,11 +40,12 @@ type Config struct {
 
 // Page is a struct that holds webpage info for the template
 type Page struct {
-	Prefix          string
-	Contents        string
-	Meta            map[string]interface{}
-	SidebarContents string
-	Raw             string
+	Prefix           string
+	Contents         string
+	Meta             map[string]interface{}
+	SidebarContents  string
+	Raw              string
+	DisplayBackToTop bool
 }
 
 // Directory is a struct that holds information

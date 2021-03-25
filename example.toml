@@ -5,8 +5,6 @@
 docroot = "docs"
 # webserver port
 port = "11011"
-# the name that will appear in the auto generated sidebar, leave empty for none
-sitename = ""
 # use prefixes, for when you for example want to 
 # proxy it under a subdirectory (no trailing slash)
 prefix = ""
@@ -23,6 +21,12 @@ linkablelines = true
 fancycurl = true
 # print debug info to stdout
 debug = false
+
+[website]
+# the name that will appear in the auto generated sidebar, leave empty for none
+sitename = "hello, world!"
+# display back to top button
+backtotop = false
 
 [aesthetic]
 # theme for fenced code blocks, one of https://xyproto.github.io/splash/docs/all.html

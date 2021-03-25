@@ -53,10 +53,11 @@ func render(reqPath string) structure.Page {
 	}
 
 	var page structure.Page = structure.Page{
-		Prefix:          structure.Conf.General.Prefix,
-		Contents:        buf.String(),
-		Meta:            meta.Get(context),
-		SidebarContents: "You shouldn't be seeing this!",
+		Prefix:           structure.Conf.General.Prefix,
+		Contents:         buf.String(),
+		Meta:             meta.Get(context),
+		SidebarContents:  "You shouldn't be seeing this!",
+		DisplayBackToTop: structure.Conf.Website.DisplayBackToTop,
 	}
 
 	return page
