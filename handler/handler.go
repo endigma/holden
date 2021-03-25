@@ -70,6 +70,6 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 
 	page.Raw = path
 
-	tmpl := template.Must(template.ParseFiles(structure.Conf.General.WorkDir + "assets/static/page.html"))
+	tmpl := template.Must(template.ParseFiles(structure.Conf.General.WorkDir + "assets/page.html"))
 	tmpl.Execute(rw, page)
 }

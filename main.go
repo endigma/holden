@@ -40,8 +40,8 @@ func main() {
 
 	log.Debug(structure.Conf.General.WorkDir)
 
-	fs := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/serve"))
-	http.Handle(structure.Conf.General.Prefix+"/serve/", http.StripPrefix(structure.Conf.General.Prefix+"/serve/", fs))
+	fs := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/static"))
+	http.Handle(structure.Conf.General.Prefix+"/static/", http.StripPrefix(structure.Conf.General.Prefix+"/static/", fs))
 
 	fs2 := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/public"))
 	http.Handle(structure.Conf.General.Prefix+"/public/", http.StripPrefix(structure.Conf.General.Prefix+"/public/", fs2))

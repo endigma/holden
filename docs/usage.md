@@ -2,6 +2,8 @@
 Title: usage
 ---
 
+# usage
+
 ### yaml header
 
 in the document we use the yaml header for certain things. these things are:
