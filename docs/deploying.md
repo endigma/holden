@@ -37,4 +37,4 @@ services:
     restart: unless-stopped
 ```
 
-you can also mount `/assets/serve/vars.css` and `/assets/public` (or anything else in `/assets` you'd like to replace)
+you can also mount `/assets/static/vars.css` and `/assets/public` (or anything else in `/assets` you'd like to replace)
