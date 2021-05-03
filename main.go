@@ -7,9 +7,9 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"git.cya.cx/endigma/holden/handler"
-	"git.cya.cx/endigma/holden/structure"
-	"git.cya.cx/endigma/holden/utils"
+	"gitcat.ca/endigma/holden/handler"
+	"gitcat.ca/endigma/holden/structure"
+	"gitcat.ca/endigma/holden/utils"
 )
 
 func init() {

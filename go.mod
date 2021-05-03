@@ -1,4 +1,4 @@
-module git.cya.cx/endigma/holden
+module gitcat.ca/endigma/holden
 
 go 1.16
 

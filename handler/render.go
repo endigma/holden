@@ -9,8 +9,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"git.cya.cx/endigma/holden/structure"
-	"git.cya.cx/endigma/holden/utils"
+	"gitcat.ca/endigma/holden/structure"
+	"gitcat.ca/endigma/holden/utils"
 	"github.com/alecthomas/chroma/formatters/html"
 	goldmarkhtml "github.com/yuin/goldmark/renderer/html"
 

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"git.cya.cx/endigma/holden/utils"
+	"gitcat.ca/endigma/holden/utils"
 	"github.com/naoina/toml"
 	log "github.com/sirupsen/logrus"
 )

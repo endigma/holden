@@ -11,8 +11,8 @@ import (
 	termmd "github.com/MichaelMure/go-term-markdown"
 	log "github.com/sirupsen/logrus"
 
-	"git.cya.cx/endigma/holden/structure"
-	"git.cya.cx/endigma/holden/utils"
+	"gitcat.ca/endigma/holden/structure"
+	"gitcat.ca/endigma/holden/utils"
 )
 
 // Handler is the main response handler for requests
