@@ -41,6 +41,8 @@ if you want to host your documentation elsewhere, try integrating [fennec](https
 
 for configuration instructions refer to the comments in the example config file in `example.toml`
 
+you can also use envars like `HLDN_<KEY>=<VALUE>`
+
 ## scripting
 
 if you'd like to get the raw markdown source using `curl`, send the `RawPlease` header with the value `true`, like:

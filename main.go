@@ -20,6 +20,9 @@ func init() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 
+	viper.SetEnvPrefix("HLDN_")
+	viper.AutomaticEnv()
+
 	viper.AddConfigPath("/etc/holden/")
 	viper.AddConfigPath("$HOME/.holden")
 	viper.AddConfigPath(".")
