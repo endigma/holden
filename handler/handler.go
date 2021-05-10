@@ -9,36 +9,37 @@ import (
 	"text/template"
 
 	termmd "github.com/MichaelMure/go-term-markdown"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
-	"gitcat.ca/endigma/holden/structure"
 	"gitcat.ca/endigma/holden/utils"
 )
 
 // Handler is the main response handler for requests
 func Handler(rw http.ResponseWriter, req *http.Request) {
-	if structure.Conf.General.Debug {
+
+	if viper.GetBool("general.debug") {
 		utils.DebugReq(req)
 	}
 
-	newPath := strings.TrimPrefix(req.URL.Path, structure.Conf.General.Prefix)
+	newPath := strings.TrimPrefix(req.URL.Path, viper.GetString("general.prefix"))
 
-	log.Debugf("Request for markdown file on %s", structure.Conf.General.Root+newPath)
+	log.Debug().Msgf("Request for markdown file on %s", viper.GetString("general.docroot")+newPath)
 
 	var path string
 	if strings.HasSuffix(newPath, "/") {
-		log.Debug("Detected trailing / on %s, checking for index", newPath)
+		log.Debug().Msgf("Detected trailing / on %s, checking for index", newPath)
 		path = newPath + "_index.md"
 	} else if strings.HasSuffix(newPath, ".md") {
-		log.Debug("Detected trailing .md on %s, sending raw markdown", newPath)
-		if utils.FileExists(structure.Conf.General.Root + newPath) {
-			sourcefile, err := os.Open(structure.Conf.General.Root + newPath)
+		log.Debug().Msgf("Detected trailing .md on %s, sending raw markdown", newPath)
+		if utils.FileExists(viper.GetString("general.docroot") + newPath) {
+			sourcefile, err := os.Open(viper.GetString("general.docroot") + newPath)
 			utils.CheckErr(err)
 			defer sourcefile.Close()
 
 			source, err := ioutil.ReadAll(sourcefile)
 
-			if structure.Conf.General.FancyCurl && !utils.IsInArr("true", req.Header.Values("RawPlease")) {
+			if viper.GetBool("general.fancycurl") && !utils.IsInArr("true", req.Header.Values("RawPlease")) {
 				if strings.HasPrefix(req.UserAgent(), "curl") {
 					rw.Write(termmd.Render(string(source), 80, 4))
 				} else {
@@ -55,21 +56,21 @@ func Handler(rw http.ResponseWriter, req *http.Request) {
 		path = newPath + ".md"
 	}
 
-	page := render(structure.Conf.General.Root + path)
+	page := render(viper.GetString("general.docroot") + path)
 
-	if utils.FileExists(structure.Conf.General.Root + "/_sidebar.md") {
-		log.Debug("_sidebar found")
-		page.SidebarContents = render(structure.Conf.General.Root + "/_sidebar.md").Contents
+	if utils.FileExists(viper.GetString("general.docroot") + "/_sidebar.md") {
+		log.Debug().Msg("_sidebar found")
+		page.SidebarContents = render(viper.GetString("general.docroot") + "/_sidebar.md").Contents
 	} else {
-		sidebarContent := renderSidebar(enumerateDir(structure.Conf.General.Root), "/")
+		sidebarContent := renderSidebar(enumerateDir(viper.GetString("general.docroot")), "/")
 		if sidebarContent == "" {
 			page.DisplaySidebar = false
 		}
-		page.SidebarContents = fmt.Sprintf("<h3><a class='home' href='%s/'><i class='fas fa-home'></i><span>%s</span></a></h3><ul>", structure.Conf.General.Prefix, structure.Conf.Website.SiteName) + sidebarContent + "</ul>"
+		page.SidebarContents = fmt.Sprintf("<h3><a class='home' href='%s/'><i class='fas fa-home'></i><span>%s</span></a></h3><ul>", viper.GetString("general.prefix"), viper.GetString("website.sitename")) + sidebarContent + "</ul>"
 	}
 
 	page.Raw = path
 
-	tmpl := template.Must(template.ParseFiles(structure.Conf.General.WorkDir + "assets/page.html"))
+	tmpl := template.Must(template.ParseFiles(viper.GetString("workdir") + "assets/page.html"))
 	tmpl.Execute(rw, page)
 }

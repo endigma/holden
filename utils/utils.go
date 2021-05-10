@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 // FileExists checks if a file or folder
@@ -18,7 +18,7 @@ func FileExists(path string) bool {
 // CheckErr checks and logs errors
 func CheckErr(e error) {
 	if e != nil {
-		log.Fatal(e)
+		log.Fatal().Err(e).Msg(e.Error())
 	}
 }
 
@@ -34,11 +34,11 @@ func IsInArr(s string, a []string) bool {
 
 // DebugReq prints extra debug info about a request.
 func DebugReq(req *http.Request) {
-	log.WithFields(log.Fields{
-		"agent":  req.UserAgent(),
-		"method": req.Method,
-		"addr":   exposeIP(req),
-	}).Debug("Request")
+	log.Debug().
+		Str("agent", req.UserAgent()).
+		Str("method", req.Method).
+		Str("addr", exposeIP(req)).
+		Msg("Request")
 }
 
 func exposeIP(req *http.Request) string {

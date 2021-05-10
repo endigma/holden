@@ -8,10 +8,14 @@ dynamic markdown documentation written in go
 
 ## running
 
-in order to run holden you have to pass a config file through the command line, or put a `config.toml` file where the binary is located. to use the shipped config run:
-```
-./holden example.toml
-```
+holden will run out of the box and create a config next to the binary
+
+holden also looks for configs in:
+- ~/.holden/
+- /etc/holden
+- ./
+
+with the filename `config.toml`.
 
 ## features
 
@@ -35,7 +39,7 @@ if you want to host your documentation elsewhere, try integrating [fennec](https
 
 ## configuration
 
-for configuration instruction refer to the comments in the example config file in `example.toml`
+for configuration instructions refer to the comments in the example config file in `example.toml`
 
 ## scripting
 

@@ -7,7 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 
 	"gitcat.ca/endigma/holden/structure"
 	"gitcat.ca/endigma/holden/utils"
@@ -26,12 +27,12 @@ var metareader goldmark.Markdown
 
 func render(reqPath string) structure.Page {
 	if !utils.FileExists(reqPath) {
-		log.Errorf("No file found at: %s", reqPath)
-		if utils.FileExists(structure.Conf.General.Root + "/_404.md") {
-			return render(structure.Conf.General.Root + "/_404.md")
+		log.Error().Msgf("No file found at: %s", reqPath)
+		if utils.FileExists(viper.GetString("general.docroot") + "/_404.md") {
+			return render(viper.GetString("general.docroot") + "/_404.md")
 		} else {
 			return structure.Page{
-				Prefix:          structure.Conf.General.Prefix,
+				Prefix:          viper.GetString("general.prefix"),
 				Raw:             "_404",
 				Contents:        "<p>404</p>",
 				SidebarContents: "You shouldn't be seeing this!",
@@ -54,12 +55,12 @@ func render(reqPath string) structure.Page {
 	}
 
 	var page structure.Page = structure.Page{
-		Prefix:           structure.Conf.General.Prefix,
+		Prefix:           viper.GetString("general.prefix"),
 		Contents:         buf.String(),
 		Meta:             meta.Get(context),
 		SidebarContents:  "You shouldn't be seeing this!",
-		DisplayBackToTop: structure.Conf.Website.DisplayBackToTop,
-		DisplaySidebar:   structure.Conf.Website.DisplaySidebar,
+		DisplayBackToTop: viper.GetBool("website.backtotop"),
+		DisplaySidebar:   viper.GetBool("website.sidebar"),
 	}
 
 	return page
@@ -70,7 +71,7 @@ func renderSidebar(dirInfo structure.Directory, prefix string) string {
 	if len(dirInfo.Directories) > 0 {
 		for _, directory := range dirInfo.Directories {
 			if utils.IsInArr("_index.md", directory.Files) {
-				sidebarContent.WriteString("<li class=\"folder\"><i class='fas fa-folder-plus'></i> <a href=\"" + structure.Conf.General.Prefix + "/" + directory.Name + "/" + "\">" + directory.Name + "</a></li>")
+				sidebarContent.WriteString("<li class=\"folder\"><i class='fas fa-folder-plus'></i> <a href=\"" + viper.GetString("general.prefix") + "/" + directory.Name + "/" + "\">" + directory.Name + "</a></li>")
 			} else {
 				sidebarContent.WriteString("<li class=\"folder\"><i class='fas fa-folder'></i> " + directory.Name + "</li>")
 			}
@@ -80,21 +81,21 @@ func renderSidebar(dirInfo structure.Directory, prefix string) string {
 	if len(dirInfo.Files) > 0 {
 		for _, file := range dirInfo.Files {
 			if !strings.HasPrefix(file, "_") {
-				filecontent, err := os.ReadFile(structure.Conf.General.Root + prefix + file)
+				filecontent, err := os.ReadFile(viper.GetString("general.docroot") + prefix + file)
 				utils.CheckErr(err)
 
 				context := parser.NewContext()
 				if err := metareader.Convert(filecontent, ioutil.Discard, parser.WithContext(context)); err != nil {
-					log.Panic(err)
+					log.Panic().Err(err).Msg("Failure in sidebar generation")
 				}
 
 				fileMeta, err := meta.TryGet(context)
 				utils.CheckErr(err)
 
 				if fileMeta["Short"] != nil && fileMeta["Short"].(string) != "" {
-					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + structure.Conf.General.Prefix + prefix + strings.TrimSuffix(file, ".md") + "\">" + fileMeta["Short"].(string) + "</a></li>")
+					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + viper.GetString("general.prefix") + prefix + strings.TrimSuffix(file, ".md") + "\">" + fileMeta["Short"].(string) + "</a></li>")
 				} else {
-					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + structure.Conf.General.Prefix + prefix + strings.TrimSuffix(file, ".md") + "\">" + strings.TrimSuffix(file, ".md") + "</a></li>")
+					sidebarContent.WriteString("<li class=\"file\"><i class='fas fa-file-alt'></i> <a href=\"" + viper.GetString("general.prefix") + prefix + strings.TrimSuffix(file, ".md") + "\">" + strings.TrimSuffix(file, ".md") + "</a></li>")
 				}
 			}
 		}
@@ -139,19 +140,19 @@ func init() {
 			extension.Footnote,
 			meta.Meta,
 			highlighting.NewHighlighting(
-				highlighting.WithStyle(structure.Conf.Aesthetic.HighlightStyle),
+				highlighting.WithStyle(viper.GetString("aesthetic.highlightstyle")),
 				highlighting.WithFormatOptions(
-					html.WithLineNumbers(structure.Conf.Aesthetic.LineNumbers),
-					html.TabWidth(structure.Conf.Aesthetic.TabWidth),
-					html.LineNumbersInTable(structure.Conf.Aesthetic.LineNumbersInTable),
-					html.WithClasses(structure.Conf.Aesthetic.UseClasses),
-					html.LinkableLineNumbers(structure.Conf.General.LinkableLines, "l"),
+					html.WithLineNumbers(viper.GetBool("aesthetic.linenumbers")),
+					html.TabWidth(viper.GetInt("aesthetic.tabwidth")),
+					html.LineNumbersInTable(viper.GetBool("aesthetic.linenumbersintable")),
+					html.WithClasses(viper.GetBool("aesthetic.tabwidth")),
+					html.LinkableLineNumbers(viper.GetBool("general.linkablelines"), "l"),
 				),
 			),
 		),
 	)
 	metareader = goldmark.New(goldmark.WithExtensions(meta.Meta))
-	if structure.Conf.General.AllowHtml {
+	if viper.GetBool("general.allowhtml") {
 		md.Renderer().AddOptions(goldmarkhtml.WithUnsafe())
 	}
 }

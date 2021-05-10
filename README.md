@@ -4,8 +4,6 @@ documentation (and coincidentally live demo) can be found on [my website](https:
 
 # to-do
 - support for a custom header
-- convert to using viper for configs
-- gracefully handle outdated configs
 - fix table scroll
 
 # maintainers

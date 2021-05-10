@@ -11,5 +11,5 @@ FROM gcr.io/distroless/base
 COPY ./assets/ /assets
 COPY --from=build-env /go/bin/holden /
 
-CMD ["/holden", "/config.toml"]
+CMD ["/holden"]
 LABEL org.opencontainers.image.source=https://github.com/endigma/holden

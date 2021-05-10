@@ -6,38 +6,9 @@ import (
 	"strings"
 
 	"gitcat.ca/endigma/holden/utils"
-	"github.com/naoina/toml"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
+	"github.com/spf13/viper"
 )
-
-// Conf is a variable where all the config options are loaded
-var Conf Config
-
-// Config is a struct that holds config info
-type Config struct {
-	General struct {
-		Root          string `toml:"docroot"`
-		Port          string `toml:"port"`
-		Prefix        string `toml:"prefix"`
-		WorkDir       string `toml:"workdir"`
-		AllowHtml     bool   `toml:"allowhtml"`
-		LinkableLines bool   `toml:"linkablelines"`
-		FancyCurl     bool   `toml:"fancycurl"`
-		Debug         bool   `toml:"debug"`
-	} `toml:"general"`
-	Website struct {
-		SiteName         string `toml:"sitename"`
-		DisplayBackToTop bool   `toml:"backtotop"`
-		DisplaySidebar   bool   `toml:"sidebar"`
-	} `toml:"website"`
-	Aesthetic struct {
-		HighlightStyle     string `toml:"highlightstyle"`
-		TabWidth           int    `toml:"tabwidth"`
-		LineNumbers        bool   `toml:"linenumbers"`
-		LineNumbersInTable bool   `toml:"linenumbersintable"`
-		UseClasses         bool   `toml:"useclasses"`
-	} `toml:"aesthetic"`
-}
 
 // Page is a struct that holds webpage info for the template
 type Page struct {
@@ -59,33 +30,49 @@ type Directory struct {
 }
 
 func init() {
-	var configPath string
+	viper.SetConfigName("config")
+	viper.SetConfigType("toml")
+
+	viper.AddConfigPath("/etc/holden/")
+	viper.AddConfigPath("$HOME/.holden")
+	viper.AddConfigPath(".")
+
+	viper.SetDefault("general.docroot", "docs")
+	viper.SetDefault("general.port", "11011")
+	viper.SetDefault("general.prefix", "")
+	viper.SetDefault("general.workdir", "")
+	viper.SetDefault("general.allowhtml", false)
+	viper.SetDefault("general.linkablelines", true)
+	viper.SetDefault("general.fancycurl", true)
+	viper.SetDefault("general.debug", false)
+	viper.SetDefault("website.sitename", "")
+	viper.SetDefault("website.backtotop", true)
+	viper.SetDefault("website.sidebar", true)
+	viper.SetDefault("aesthetic.highlightstyle", "solarized-dark256")
+	viper.SetDefault("aesthetic.linenumbers", true)
+	viper.SetDefault("aesthetic.linenumbersintable", true)
+	viper.SetDefault("aesthetic.tabwidth", 4)
+	viper.SetDefault("aesthetic.useclasses", false)
+
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			log.Fatal().Err(err).Str("cfgfile", viper.ConfigFileUsed()).Msg("Failure to load config")
+		} else {
+			log.Info().Msg("Creating a new config file!")
+			_, err = os.Create("config.toml")
+			utils.CheckErr(err)
+			viper.WriteConfig()
+		}
+	} else {
+		viper.WatchConfig()
+	}
+
+	viper.WriteConfig()
+
 	ex, err := os.Executable()
 	utils.CheckErr(err)
 
 	binPath := filepath.Dir(ex) + "/"
 
-	if len(os.Args) == 1 { // no arguments
-		if utils.FileExists(binPath + "config.toml") {
-			configPath = binPath + "config.toml"
-		} else {
-			log.Fatal("Please provide a valid config file or put config.toml in " + binPath)
-		}
-	} else { // there are arguments
-		if utils.FileExists(os.Args[1]) {
-			configPath = os.Args[1]
-		} else {
-			log.Fatal("Please provide a valid config file or put config.toml in " + binPath)
-		}
-	}
-
-	configFile, err := os.Open(configPath)
-	utils.CheckErr(err)
-	defer configFile.Close()
-	err = toml.NewDecoder(configFile).Decode(&Conf)
-	utils.CheckErr(err)
-
-	Conf.General.Root = strings.ReplaceAll(Conf.General.Root, "_binary", strings.TrimSuffix(binPath, "/"))
-
-	log.Debug("Structure initialized")
+	viper.Set("docroot", strings.ReplaceAll(viper.GetString("docroot"), "_binary", strings.TrimSuffix(binPath, "/")))
 }

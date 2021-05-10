@@ -4,51 +4,51 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+
+	"github.com/spf13/viper"
 
 	"gitcat.ca/endigma/holden/handler"
-	"gitcat.ca/endigma/holden/structure"
 	"gitcat.ca/endigma/holden/utils"
 )
 
 func init() {
-	logfmt := new(log.TextFormatter)
-	logfmt.TimestampFormat = "2006-01-02 15:04:05"
-	logfmt.FullTimestamp = true
-	log.SetFormatter(logfmt)
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
+	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.RFC3339}).With().Caller().Logger()
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
-	if structure.Conf.General.Debug {
-		log.SetLevel(log.DebugLevel)
+	if viper.GetBool("general.debug") {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 
-	log.Info("Initialized")
-	log.Debug("Debugging enabled")
+	log.Info().Msg("Initialized")
+	log.Debug().Msg("Debugging enabled")
 }
 
 func main() {
-	log.Infof("Serving markdown files in %s", structure.Conf.General.Root)
+	log.Info().Msgf("Serving markdown files in %s", viper.GetString("general.docroot"))
 
-	if structure.Conf.General.WorkDir == "_binary" {
+	if viper.GetString("general.workdir") == "_binary" {
 		ex, err := os.Executable()
 		utils.CheckErr(err)
 
-		structure.Conf.General.WorkDir = filepath.Dir(ex) + "/"
+		viper.Set("general.workdir", filepath.Dir(ex)+"/")
 	}
 
-	log.Debug(structure.Conf.General.WorkDir)
+	log.Debug().Msg(viper.GetString("general.workdir"))
 
-	fs := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/static"))
-	http.Handle(structure.Conf.General.Prefix+"/static/", http.StripPrefix(structure.Conf.General.Prefix+"/static/", fs))
+	fs := http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/static"))
+	http.Handle(viper.GetString("general.prefix")+"/static/", http.StripPrefix(viper.GetString("general.prefix")+"/static/", fs))
 
-	fs2 := http.FileServer(http.Dir(structure.Conf.General.WorkDir + "assets/public"))
-	http.Handle(structure.Conf.General.Prefix+"/public/", http.StripPrefix(structure.Conf.General.Prefix+"/public/", fs2))
-	http.Handle(structure.Conf.General.Prefix+"/favicon.ico", http.StripPrefix(structure.Conf.General.Prefix+"/public/", fs2))
+	fs2 := http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/public"))
+	http.Handle(viper.GetString("general.prefix")+"/public/", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
+	http.Handle(viper.GetString("general.prefix")+"/favicon.ico", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
 
-	http.HandleFunc(structure.Conf.General.Prefix+"/", handler.Handler)
+	http.HandleFunc(viper.GetString("general.prefix")+"/", handler.Handler)
 
-	log.Infof("Starting http server on :%s", structure.Conf.General.Port)
-	log.Fatal(http.ListenAndServe(":"+structure.Conf.General.Port, nil))
+	log.Info().Msgf("Starting http server on :%s", viper.GetString("general.port"))
+	log.Fatal().Err(http.ListenAndServe(":"+viper.GetString("general.port"), nil)).Msg("Fatal")
 }
