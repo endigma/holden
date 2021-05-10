@@ -21,6 +21,8 @@ linkablelines = true
 fancycurl = true
 # print debug info to stdout
 debug = false
+# fancystdout colorizes and does other cool stuff to logs
+fancystdout = true
 
 [website]
 # the name that will appear in the auto generated sidebar, leave empty for none
