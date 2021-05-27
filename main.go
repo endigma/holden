@@ -81,6 +81,8 @@ func init() {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 
+	handler.InitializeRenderer()
+
 	log.Info().Msg("Initialized")
 	log.Debug().Msg("Debugging enabled")
 }

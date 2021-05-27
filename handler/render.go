@@ -132,7 +132,7 @@ func enumerateDir(path string) structure.Directory {
 	return *dirInfo
 }
 
-func init() {
+func InitializeRenderer() {
 	md = goldmark.New(
 		goldmark.WithExtensions(
 			extension.GFM,
