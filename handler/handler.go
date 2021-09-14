@@ -74,7 +74,7 @@ var Handler = http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	cacheSince := time.Now().Format(http.TimeFormat)
-	cacheUntil := time.Now().AddDate(60, 0, 0).Format(http.TimeFormat)
+	cacheUntil := time.Now().AddDate(0, 0, 1).Format(http.TimeFormat)
 
 	rw.Header().Set("Cache-Control", "max-age:290304000, public")
 	rw.Header().Set("Last-Modified", cacheSince)
