@@ -14,6 +14,7 @@ import (
 
 	"gitcat.ca/endigma/holden/handler"
 	"gitcat.ca/endigma/holden/utils"
+	"github.com/NYTimes/gziphandler"
 )
 
 func init() {
@@ -105,8 +106,7 @@ func main() {
 	fs2 := http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/public"))
 	http.Handle(viper.GetString("general.prefix")+"/public/", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
 	http.Handle(viper.GetString("general.prefix")+"/favicon.ico", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
-
-	http.HandleFunc(viper.GetString("general.prefix")+"/", handler.Handler)
+	http.Handle(viper.GetString("general.prefix")+"/", gziphandler.GzipHandler(handler.Handler))
 
 	log.Info().Msgf("Starting http server on :%s", viper.GetString("general.port"))
 	log.Fatal().Err(http.ListenAndServe(":"+viper.GetString("general.port"), nil)).Msg("Fatal")

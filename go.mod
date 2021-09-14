@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/MichaelMure/go-term-markdown v0.1.3
 	github.com/MichaelMure/go-term-text v0.2.10 // indirect
+	github.com/NYTimes/gziphandler v1.1.1
 	github.com/alecthomas/chroma v0.8.2
 	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/fatih/color v1.10.0 // indirect
