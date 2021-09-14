@@ -100,10 +100,12 @@ func main() {
 
 	log.Debug().Msg(viper.GetString("general.workdir"))
 
-	fs := http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/static"))
+	fs := gziphandler.GzipHandler(http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/static")))
+
 	http.Handle(viper.GetString("general.prefix")+"/static/", http.StripPrefix(viper.GetString("general.prefix")+"/static/", fs))
 
-	fs2 := http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/public"))
+	fs2 := gziphandler.GzipHandler(http.FileServer(http.Dir(viper.GetString("general.workdir") + "assets/public")))
+
 	http.Handle(viper.GetString("general.prefix")+"/public/", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
 	http.Handle(viper.GetString("general.prefix")+"/favicon.ico", http.StripPrefix(viper.GetString("general.prefix")+"/public/", fs2))
 	http.Handle(viper.GetString("general.prefix")+"/", gziphandler.GzipHandler(handler.Handler))
